@@ -1,0 +1,28 @@
+{
+  "name": "finance-manager-backend",
+  "version": "1.0.0",
+  "description": "Backend for Finance Manager App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arindam-Mondal/FinanceManager.git"
+  },
+  "author": "Arindam Mondal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arindam-Mondal/FinanceManager/issues"
+  },
+  "homepage": "https://github.com/Arindam-Mondal/FinanceManager#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.1"
+  }
+}
