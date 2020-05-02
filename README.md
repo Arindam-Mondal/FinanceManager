@@ -1,2 +1,2 @@
 # FinanaceManager
-App to manage expense and incode
+App to manage expense and income
