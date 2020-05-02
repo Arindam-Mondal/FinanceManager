@@ -1,10 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const usersRoutes = require("./routes/users-routes");
 
 const app = express();
 
-app.get("/user", (req, res) => {
-  res.status(200).json({ message: "Hello" });
-});
+app.use("/api/users", usersRoutes);
 
 app.listen(5000);
