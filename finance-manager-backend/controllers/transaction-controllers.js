@@ -1,4 +1,5 @@
 const Transaction = require("../models/transaction");
+const HttpError = require("../models/http-error");
 
 /**
  * Creates a new Transaction
