@@ -5,4 +5,4 @@ class HttpError extends Error {
   }
 }
 
-module.export = HttpError;
+module.exports = HttpError;
