@@ -131,7 +131,109 @@ const getTransactionsByUserId = async (req, res, next) => {
   });
 };
 
+/**
+ * Update Transaction by Transaction Id
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+const updateTransaction = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(
+      new HttpError("Invalid Input passed, please check your data", 422)
+    );
+  }
+
+  const { amount, type, description } = req.body;
+  const transactionId = req.params.tid;
+
+  let transaction;
+  try {
+    transaction = await Transaction.findById(transactionId);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not find a transaction.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!transaction) {
+    const error = new HttpError(
+      "Could not find a transaction for the provided id.",
+      404
+    );
+    return next(error);
+  }
+
+  transaction.amount = amount;
+  transaction.type = type;
+  transaction.description = description;
+
+  try {
+    await transaction.save();
+  } catch (err) {
+    const error = new HttpError(
+      "Creating Transaction failed, please try again.",
+      500
+    );
+    return next(error);
+  }
+  res.status(201).json({ transaction: transaction });
+};
+
+/**
+ * Delete a transaction by transaction Id. Also removes the transaction from the User Schema
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+const deleteTransaction = async (req, res, next) => {
+  const transactionId = req.params.tid;
+
+  let transaction;
+
+  try {
+    transaction = await Transaction.findById(transactionId).populate("user");
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not find a transaction.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!transaction) {
+    const error = new HttpError(
+      "Could not find a transaction for the provided id.",
+      404
+    );
+    return next(error);
+  }
+  console.log(JSON.stringify(transaction));
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await transaction.remove({ session: sess });
+    transaction.user.transactions.pull(transaction);
+    await transaction.user.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    console.log(err);
+    const error = new HttpError(
+      "Something went wrong, could not delete Transaction.",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ message: "Deleted place." });
+};
+
 exports.createTransaction = createTransaction;
 exports.getTransactions = getTransactions;
 exports.getTransactionById = getTransactionById;
 exports.getTransactionsByUserId = getTransactionsByUserId;
+exports.updateTransaction = updateTransaction;
+exports.deleteTransaction = deleteTransaction;
