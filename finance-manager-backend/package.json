@@ -26,6 +26,7 @@
     "express-validator": "^6.4.1",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.20",
+    "mongoose-unique-validator": "^2.0.3",
     "uuid": "^8.0.0"
   }
 }
