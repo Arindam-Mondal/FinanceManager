@@ -10,9 +10,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import axios from "axios";
-import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
+  root: {
+    textAlign: "center",
+  },
   textField: {
     marginTop: 10,
   },
@@ -23,6 +25,7 @@ const useStyles = makeStyles({
   loginPaper: {
     // padding: 10,
     marginTop: 100,
+    textAlign: "center",
   },
   loginHeader: {
     marginBottom: 15,
@@ -42,8 +45,6 @@ const UserLogin = () => {
         password: password,
       })
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
         authContext.loginDispatchHandler({ email: email });
       })
       .catch((error) => {
