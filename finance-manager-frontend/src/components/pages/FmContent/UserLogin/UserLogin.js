@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "../../../context/authContext/AuthContext";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -9,6 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import axios from "axios";
+import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   textField: {
@@ -16,10 +18,17 @@ const useStyles = makeStyles({
   },
   loginButton: {
     marginTop: 10,
+    marginBottom: 10,
   },
   loginPaper: {
-    padding: 10,
+    // padding: 10,
     marginTop: 100,
+  },
+  loginHeader: {
+    marginBottom: 15,
+    height: 40,
+    backgroundColor: "#3f51b5",
+    color: "#eaebf1",
   },
 });
 
@@ -35,6 +44,7 @@ const UserLogin = () => {
       .then((res) => {
         console.log(res);
         console.log(res.data);
+        authContext.loginDispatchHandler({ email: email });
       })
       .catch((error) => {
         console.log("Error occurred while fetching Entries");
@@ -44,12 +54,17 @@ const UserLogin = () => {
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const authContext = useContext(AuthContext);
 
   return (
     <Paper elevation={3} className={classes.loginPaper}>
-      <div>
-        <Typography variant="subtitle2" component="subtitle2">
-          Login
+      <div className={classes.loginHeader}>
+        <Typography variant="h5" component="h5">
+          Sign In
+          {/* Login -
+          {authContext.isLoggedIn
+            ? "LoggedIn as " + authContext.user.email
+            : "NotLoggedIn"} */}
         </Typography>
       </div>
       <FormControl>
